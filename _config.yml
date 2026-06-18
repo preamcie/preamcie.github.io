@@ -26,7 +26,7 @@ description: >- # used by seo meta and the atom feed
 url: "https://preamcie.github.io"
 
 github:
-  username: PREAMCIE # change to your GitHub username
+  username: # change to your GitHub username
 
 twitter:
   username: # change to your Twitter username
@@ -39,7 +39,7 @@ social:
   fediverse_handle: # fill in your fediverse handle. E.g. "@username@domain.com"
   links:
     # The first element serves as the copyright owner's link
-    - https://github.com/PREAMCIE # change to your GitHub homepage
+    - https://preamcie.github.io # change to your homepage
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
     # - https://www.linkedin.com/in/username
@@ -138,9 +138,9 @@ assets:
     env: # [development | production]
 
 pwa:
-  enabled: true # The option for PWA feature (installable)
+  enabled: false # The option for PWA feature (installable)
   cache:
-    enabled: true # The option for PWA offline cache
+    enabled: false # The option for PWA offline cache
     # Paths defined here will be excluded from the PWA cache.
     # Usually its value is the `baseurl` of another website that
     # shares the same domain name as the current website.
