@@ -45,6 +45,11 @@ jobs:
           ruby-version: 3.4
           bundler-cache: true
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
       - name: Build site
         run: bundle exec jekyll b -d "_site${{ steps.pages.outputs.base_path }}"
         env:
@@ -55,6 +60,32 @@ jobs:
           bundle exec htmlproofer _site \
             \-\-disable-external \
             \-\-ignore-urls "/^http:\/\/127.0.0.1/,/^http:\/\/0.0.0.0/,/^http:\/\/localhost/"
+
+      - name: Encrypt redteam pages
+        env:
+          STATICRYPT_PASSWORD: ${{ secrets.STATICRYPT_PASSWORD }}
+        run: |
+          if [ -z "$STATICRYPT_PASSWORD" ]; then
+            echo "STATICRYPT_PASSWORD secret is not set."
+            exit 1
+          fi
+
+          SITE_DIR="_site${{ steps.pages.outputs.base_path }}"
+          PROTECTED_DIR="$SITE_DIR/redteam"
+          if [ ! -d "$PROTECTED_DIR" ]; then
+            echo "Protected directory does not exist: $PROTECTED_DIR"
+            exit 1
+          fi
+
+          npx --yes staticrypt@3 "$PROTECTED_DIR"/* \
+            --recursive \
+            --directory "$PROTECTED_DIR" \
+            --config false \
+            --salt ced920b0c7abe4eea3639b307fb403b0 \
+            --remember 7 \
+            --template-title "Protected" \
+            --template-instructions "Enter the password to access the red team notes." \
+            --template-button "Unlock"
 
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v4
