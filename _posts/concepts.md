@@ -1,6 +1,6 @@
 ---
 title: Concepts for noobs -> EDR telemetry 
-date: 2026-06-20 00:00:00 +0800
+date: 2026-06-25 00:00:00 +0800
 categories: [Red Team]
 tags: [redteam, notes]
 permalink: /redteam/concept1/
@@ -34,9 +34,8 @@ There are 3 types
 2. Inline hooking
 
 You bypass these with 2 techniques
-1. Manual syscalls (direct and indirect)
-2. Syscall libraries
-3. API unhooking
+1. Manual syscalls (direct and indirect) + Syscall Libraries
+2. API unhooking
 
 ### IAT hooking
 
