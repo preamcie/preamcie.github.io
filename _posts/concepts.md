@@ -1,9 +1,9 @@
 ---
-title: Concepts
+title: Concepts for noobs -> EDR telemetry 
 date: 2026-06-20 00:00:00 +0800
 categories: [Red Team]
 tags: [redteam, notes]
-permalink: /redteam/day2/
+permalink: /redteam/concept1/
 ---
 
 # Concepts for noobs -> EDR telemetry 
