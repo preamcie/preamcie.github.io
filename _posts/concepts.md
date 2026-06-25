@@ -167,9 +167,53 @@ I believe this isn't an actual term. It's just that Syscall numbers changes with
 You probably think it's easy to just get the function pointer, add 4 to get SSN and 18 to get the syscall instruction. 
 However, if this is hooked with inline hooking, this will not work. 
 
+Remember that the point of this code is just to get the address of SSN and the syscall instruction of any function. It does not do anything else. You still have to write your own code.  
 
 #### Hell's gate
 
+Finds the SSN through the `mov eax` instruction. Fails to find if the function is hooked. 
+
+#### Halo's gate
+
+If target function is hooked, look at neighbouring functions. If neighbouring functions are hooked, keep trying until one isn't hooked, then adjust SSN accordingly. 
+
+```
+NtQueryInformationmThread 0x25
+NtOpenProcess 0x26
+NtSetInformationFile 0x27
+```
+
+Even if you have the SSN? How do u get the memory address of the syscall instruction? 
+
+Remember that for `Direct Syscalls`, it doesn't matter. For `Indirect Syscalls`, you can just call from another function that isn't hooked. 
+
+####  Tartarus's gate
+
+2 detections for hooking. 
+1. see if first 3 bytes is `4c 8b d1` (mov r10, rcx). 
+2. If inline hooking doesn't hook the first line, check for the second line. Check if 4th byte is `e9` (jmp). 
+
+## API unhooking
+
+For IAT hooking - restore function pointers. 
+For Inline hooking (more common) - restore the original functions. 
+
+As multiple functions in ntdll.dll could be hooked, just replace the whole thing. 
+
+Remember that most of the executable code are in .text section. Also remember that the ntdll.dll is being loaded from disk into process's memory, then the EDR's DLL overwrites the in-memory instructions with the hooks. That means the actual file on disk is never modified. 
+
+```
+Read a clean version of ntdll.dll from disk.
+Get the base address of the hooked ntdll.dll in memory.
+Locate its .text section.
+Make the .text region writable.
+Copy the .text section from the clean version over the hooked version.
+Restore the .text section's memory permissions.
+Flush the instruction cache.
+Close handles.
+```
+
+The downside is that we are using user mode APIs like CreateFile, MapViewOfFile and VirtualProtect to read the clean copy of ntdll.dll on disk. These may be hooked. 
 
 
 
