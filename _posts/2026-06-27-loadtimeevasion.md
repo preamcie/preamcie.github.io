@@ -10,5 +10,14 @@ permalink: /redteam/loader/
 
 ## Simple Loader
 
-![How the loader works](/assets/img/loader.png.png)
+![How the loader works](/assets/img/loader.png)
+
+## Concept
+
+
+
+## Static signatures
+
+The raw beacon DLL is appended right after the loader. When the beacon is loaded into memory, the entire PE can be seen. 
+All sections, all strings, all code. You do string replacements here, 
 
