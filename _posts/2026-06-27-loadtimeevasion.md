@@ -69,6 +69,28 @@ This section is just telling you how many sections you want appended to the load
 
 ### Applying Evasive Tradecraft
 
+1. attach
+
+We use this in the spec file. At link time, when the PIC calls `KERNEL32$VirtualAlloc`  via the resolve function, redirect it to a call to _VirtualAlloc function (your own hooked function) instead. 
+
+2. Hook code
+
+In all the functions that you want to be hooked, create a `FUNCTION_CALL` struct (which function to call, how many arguments, what the arguments are) and hand it off to `spoof_call`. There is no spoofing logic. 
+
+```
+typedef struct {
+    PVOID     function;
+    int       argc;
+    ULONG_PTR args [ 10 ];
+} FUNCTION_CALL;
+
+ULONG_PTR spoof_call ( FUNCTION_CALL * call );
+```
+
+3. Spoof code
+
+Create a `spoof_call`. In the example, it's the Draugr implementation. If you find a better call stack spoofing technique, change this file only. 
+
 ## What was done in the lab
 
 1. Disable CS's built-in evasion
@@ -81,4 +103,4 @@ What is link time? Build time?
 
 MakeFile -> Build time is when you compile a C code into COFF object file. Each .c file will become .o file by changing source code into machine code. 
 
-Spec file (instructions for link time)-> Link time is when Crystal Palace combines everything into the final PIC.
+Spec file (instructions for link time)-> Link time is when Crystal Palace combines everything into the final PIC. 
