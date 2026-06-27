@@ -33,7 +33,27 @@ All sections, all strings, all code. However, as stated above, it doesn't matter
 
 ## Removing RWX memory 
 
-It loops through the DLL's PE section, then check where the memory addresses are for each section. for each section, change the permissions to what the default should be like using VirtualProtect
+It loops through the DLL's PE section, then check where the memory addresses are for each section. for each section, change the permissions to what the default should be like using VirtualProtect.
+
+Note: technically the logic for this part will never change, but what will change is how you hide VirtualProtect through Call Stack spoofing.
 
 ![Permissions and their original settings](/assets/img/rwxMemory.png)
 
+## What was configured for me in the crystal kit lab
+
+### Simple Loader takeaways
+
+1. DFR -> Dynamic Function Resolution
+
+Normally, when `VirtualAlloc` is called in a regular program, the compiler and linked reference it at build time, it goes into the import table, and the Windows loader connects it to the real function when the process starts. That's static resolution. 
+
+However, since PIC has no import table, you need to find out where VirtualAlloc lives in memory by itself. 
+
+At link time, hash of VirtualAlloc is calculated already `0x91AFCA54`. At run time, findFunctionByHash walks through the EAT entries, hashes every thing one by one, and compares it to the hashed value earlier. 
+
+The point of this is so that the string `VirtualAlloc` and `Kernel32` is never anywhere in the final PIC.
+
+<span style="color:rgb(192, 0, 0)">Special Note:</span> 
+Only for `LoadLibraryA` and `GetProcAddress`, we don't have to do `KERNEL32$LoadLibraryA` or `KERNEL32$GetProcAddress`. Crystal palace handles this shortcut. 
+
+2. 
