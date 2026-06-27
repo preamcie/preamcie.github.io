@@ -75,3 +75,10 @@ This section is just telling you how many sections you want appended to the load
 2. Uncomment attach/preserve in loader.spec -> enables Draugr call stack spoofing hooks
 3. Add strrep_pad calls in crystalkit.cna -> replace static strings 
 
+## Questions? 
+
+What is link time? Build time? 
+
+MakeFile -> Build time is when you compile a C code into COFF object file. Each .c file will become .o file by changing source code into machine code. 
+
+Spec file (instructions for link time)-> Link time is when Crystal Palace combines everything into the final PIC.
