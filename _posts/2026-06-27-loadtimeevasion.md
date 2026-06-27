@@ -62,4 +62,15 @@ Only for `LoadLibraryA` and `GetProcAddress`, we don't have to do `KERNEL32$Load
 
 This section is just telling you how many sections you want appended to the loader, and where they are in memory. In this case we only use 1 which is DLL. 
 
+### Loader Modularity 
+
+### Resource Masking
+
+### Applying Evasive Tradecraft
+
+## What was done in the lab
+
+1. Disable CS's built-in evasion
+2. Uncomment attach/preserve in loader.spec -> enables Draugr call stack spoofing hooks
+3. Add strrep_pad calls in crystalkit.cna -> replace static strings 
 
