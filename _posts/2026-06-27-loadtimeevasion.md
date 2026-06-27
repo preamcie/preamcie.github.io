@@ -31,5 +31,9 @@ All sections, all strings, all code. However, as stated above, it doesn't matter
     $beacon = strrep_pad ( $beacon, "\x48\x89\x5C\x24\x08\x57\x48\x83\xEC\x20\x48\x8B\x59\x10\x48\x8B\xF9\x48\x8B\x49\x08\xFF\x17\x33\xD2\x41\xB8\x00\x80\x00\x00", "\x48\x89\x5C\x24\x08\x57\x48\x83\xEC\x20\x48\x8B\x59\x10\x48\x8B\xF9\x48\x8B\x49\x08\xFF\x17\x33\xD2\x41\xB8\x01\x80\x00\x00" );
 ```
 
+## Removing RWX memory 
 
+It loops through the DLL's PE section, then check where the memory addresses are for each section. for each section, change the permissions to what the default should be like using VirtualProtect
+
+![Permissions and their original settings](/assets/img/rwxMemory.png)
 
