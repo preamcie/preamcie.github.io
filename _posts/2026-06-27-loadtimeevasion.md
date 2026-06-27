@@ -53,7 +53,13 @@ At link time, hash of VirtualAlloc is calculated already `0x91AFCA54`. At run ti
 
 The point of this is so that the string `VirtualAlloc` and `Kernel32` is never anywhere in the final PIC.
 
-<span style="color:rgb(192, 0, 0)">Special Note:</span> 
+<span style="color:rgb(192, 0, 0)">Special Note: ImportFuncs</span> 
 Only for `LoadLibraryA` and `GetProcAddress`, we don't have to do `KERNEL32$LoadLibraryA` or `KERNEL32$GetProcAddress`. Crystal palace handles this shortcut. 
 
-2. 
+2. Makefile
+3. Spec file
+4. Linked resources
+
+This section is just telling you how many sections you want appended to the loader, and where they are in memory. In this case we only use 1 which is DLL. 
+
+
