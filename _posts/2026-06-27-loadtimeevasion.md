@@ -57,15 +57,18 @@ The point of this is so that the string `VirtualAlloc` and `Kernel32` is never a
 
 Only for `LoadLibraryA` and `GetProcAddress`, we don't have to do `KERNEL32$LoadLibraryA` or `KERNEL32$GetProcAddress`. Crystal palace handles this shortcut. 
 
-2. Makefile
-3. Spec file
-4. Linked resources
+    2. Makefile
+    3. Spec file
+    4. Linked resources
 
 This section is just telling you how many sections you want appended to the loader, and where they are in memory. In this case we only use 1 which is DLL. 
 
 ### Loader Modularity 
 
+Basically just moving the 'resolve' service into a different file, since this will always be used and we don't want to rewrite it every single time. 
+
 ### Resource Masking
+Basically just XOR the DLL so that it can't be read until the DLL is being loaded into memory. 
 
 ### Applying Evasive Tradecraft
 
