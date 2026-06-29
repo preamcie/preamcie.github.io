@@ -18,6 +18,8 @@ Even in memory, before the loader decrypts and loads Beacon, the entire blob (lo
 
 After the loader decrypts the DLL and loads it properly into its own memory region, it looks like any other loaded DLL — MZ header, sections, imports, all normal. At that point, the EDR can only detect it through Beacon-specific signatures, which string replacement handles.
 
+This scanning by the EDR will happen for the time period when the beacon is running and before it goes to sleep. When it goes to sleep, the `sleep_mask' encrypts it so the EDR only sees encrypted content. 
+
 ## Static signatures
 
 The raw beacon DLL is appended right after the loader. When the beacon is loaded into memory, the entire PE can be seen. 
