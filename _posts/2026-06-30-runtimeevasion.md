@@ -28,6 +28,30 @@ So the only way is to hook the `GetProcAddress` functions by the Beacon itself. 
 
 ![pico.spec](/assets/img/picoSpec.png)
 
+## Indirect Syscalls
+
+Basically this is just about how to use indirect syscalls instead of call stack spoofing. The course stated explicitly that you could use both techniques at once. However, you usually only need one, depending on what kind of defense you are dealing with. 
+
+## Memory Obfuscation
+
+Since we disabled CS kit for `sleep_mask`, we need to implement one ourselves. 
+
+We need to hook Beacon's `sleep` function. 
+
+1. XOR encrypt all of Beacon's PE sections in memory
+2. Change RX sections (like .text) to RW - so there's no executable memory visible. 
+3. Call the real `sleep`. 
+4. When Beacon wakes up, decrypt everything. 
+5. Change permissions back to their original values. 
+6. Return control to Beacon. 
+
+However, when changing the memory we have to use `VirtualProtect`, but the previous `addhook` function only intecepts APIs resolved through `_GetProcAddress` during `ProcessImports` for Beacon's imports. The PICO'S own VirtualProtect calls aren't Beacon imports, so `addhook` doesn't cover them.
+
+Fix: add `attach` in pico.spec for VirtualProtect, which patches the PICO's own DFR reference at link time. 
+
+![3 layers of hooking](/assets/img/hooking.png)
+
+
 
 
 
